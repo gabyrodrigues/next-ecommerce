@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button /> should render correct classNames when variant prop is not passed 1`] = `
+<button
+  class="undefined p-2 rounded-lg font-semibold bg-base-primary text-white border-0 hover:bg-base-darkPrimary"
+  type="button"
+/>
+`;

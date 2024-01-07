@@ -1,7 +1,7 @@
 export default function Main() {
   return (
     <main>
-      <h1>Boilerplate Next Tailwind</h1>
+      <h1>Next E-commerce</h1>
     </main>
   );
 }

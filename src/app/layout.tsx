@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Boilerplate Next Tailwind",
-  description: "A simple project starter to work with Typescript, React, NextJS and Tailwind CSS",
+  title: "Next E-commerce",
+  description: "A simple E-commerce developed with Typescript, React, NextJS and Tailwind CSS",
   icons: {
     icon: "/img/favicon.ico",
     shortcut: "/img/icon-512.png",

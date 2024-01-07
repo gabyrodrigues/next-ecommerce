@@ -6,7 +6,7 @@ describe("<Main />", () => {
   it("should render the heading", () => {
     const { container } = render(<Main />);
 
-    expect(screen.getByRole("heading", { name: /boilerplate next tailwind/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /next e-commerce/i })).toBeInTheDocument();
     expect(container.firstChild).toMatchSnapshot();
   });
 });

@@ -3,7 +3,7 @@
 exports[`<Main /> should render the heading 1`] = `
 <main>
   <h1>
-    Boilerplate Next Tailwind
+    Next E-commerce
   </h1>
 </main>
 `;
