@@ -11,7 +11,7 @@ interface ButtonProps {
   children?: ReactNode;
 }
 
-export default function Button({
+export function Button({
   className,
   type = "button",
   variant = "filled",

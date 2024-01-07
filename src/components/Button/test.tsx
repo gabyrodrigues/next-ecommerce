@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import Button from ".";
+import { Button } from ".";
 
 describe("<Button />", () => {
   it("should render correct classNames when variant prop is not passed", () => {

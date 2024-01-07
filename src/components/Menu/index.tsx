@@ -2,9 +2,9 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import Button from "@/components/Button";
-import Group from "@/components/Group";
-import Flex from "@/components/Flex";
+import { Button } from "@/components/Button";
+import { Group } from "@/components/Group";
+import { Flex } from "@/components/Flex";
 
 import logo from "../../../public/img/logo-full.svg";
 import { Favorite, ShoppingCart } from "@styled-icons/material-outlined";

@@ -31,9 +31,7 @@ export default function AuthTemplate({ children }: AuthProps) {
             </h3>
           </div>
 
-          <p className="self-end text-xs text-center">
-            Won Games 2023 © Todos os Direitos Reservados
-          </p>
+          <p className="self-end text-xs text-center">Next E-commerce 2024 ©</p>
         </div>
       </div>
 

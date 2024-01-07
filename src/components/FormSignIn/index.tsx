@@ -1,26 +1,74 @@
 import Link from "next/link";
 import { Email, Lock } from "@styled-icons/material-outlined";
-import TextField from "@/components/TextField";
-import Button from "@/components/Button";
 
-export default function FormSignIn() {
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+import { TextField } from "@/components/TextField";
+import { Button } from "@/components/Button";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/Form";
+import { formSchema } from "./schema";
+
+export function FormSignIn() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: ""
+    }
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
+
   return (
-    <div>
-      <form className="flex flex-col gap-2">
-        <TextField
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-3">
+        <FormField
+          control={form.control}
           name="email"
-          placeholder="Email"
-          type="email"
-          icon={<Email />}
-        />
-        <TextField
-          name="password"
-          placeholder="Password"
-          type="password"
-          icon={<Lock />}
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <TextField
+                  placeholder="Email"
+                  type="email"
+                  icon={<Email />}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
 
-        <Button className="w-full">Sign in now</Button>
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <TextField
+                  placeholder="Password"
+                  type="password"
+                  icon={<Lock />}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button
+          type="submit"
+          className="w-full">
+          Sign in now
+        </Button>
         <div className="text-black text-small text-center">
           Don&apos;t have an account?{" "}
           <Link
@@ -30,6 +78,6 @@ export default function FormSignIn() {
           </Link>
         </div>
       </form>
-    </div>
+    </Form>
   );
 }

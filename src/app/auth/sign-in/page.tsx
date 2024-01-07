@@ -2,8 +2,8 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import FormSignIn from "@/components/FormSignIn";
-import Flex from "@/components/Flex";
+import { FormSignIn } from "@/components/FormSignIn";
+import { Flex } from "@/components/Flex";
 
 import logo from "../../../../public/img/logo-full.svg";
 

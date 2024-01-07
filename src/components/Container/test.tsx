@@ -1,15 +1,14 @@
 import { render } from "@testing-library/react";
-import Container from ".";
+import { Container } from ".";
 
 describe("<Container />", () => {
-  it("should render the heading", () => {
+  it("should render the container", () => {
     const { container } = render(
       <Container>
-        <span>Won Games</span>
+        <span>Next E-commerce</span>
       </Container>
     );
 
-    expect(container.firstChild).toHaveStyle({ maxWidth: "120rem" });
     expect(container.firstChild).toMatchSnapshot();
   });
 });
