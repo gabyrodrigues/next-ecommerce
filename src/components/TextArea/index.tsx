@@ -1,7 +1,7 @@
 import React, { InputHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/utils";
 
-export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface TextareaProps extends InputHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   labelFor?: string;
   initialValue?: string;
@@ -9,7 +9,7 @@ export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
 }
 
-const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
+const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ label, labelFor = "", icon = false, className, ...props }, ref) => {
     return (
       <div className="text-left">
@@ -22,10 +22,10 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         )}
         <div className="bg-lightGray rounded-sm border-2 border-lightGray border-solid flex py-0 px-3 focus-within:shadow-basic">
           {!!icon && <div className="text-gray flex order-none w-6">{icon}</div>}
-          <input
+          <textarea
             type="text"
             className={cn(
-              "bg-transparent border-0 text-black text-base outline-none py-2 px-0 pl-4 w-full",
+              "bg-transparent border-0 min-h-[80px] text-black text-base outline-none py-2 px-0 pl-4 w-full",
               className
             )}
             ref={ref}
@@ -36,6 +36,6 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     );
   }
 );
-TextField.displayName = "TextField";
+Textarea.displayName = "Textarea";
 
-export { TextField };
+export { Textarea };

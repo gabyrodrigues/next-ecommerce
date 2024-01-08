@@ -3,16 +3,19 @@ import { Email } from "@styled-icons/material-outlined";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { sendPasswordResetEmail } from "firebase/auth";
 import * as z from "zod";
+import { auth } from "@/lib/firebase";
 
 import { TextField } from "@/components/TextField";
 import { Button } from "@/components/Button";
+import { useToast } from "@/components/Toast/useToast";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/Form";
 import { formSchema } from "./schema";
-import { sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "@/lib/firebase";
 
 export function FormForgotPassword() {
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -21,7 +24,19 @@ export function FormForgotPassword() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await sendPasswordResetEmail(auth, values.email);
+    try {
+      await sendPasswordResetEmail(auth, values.email);
+      toast({
+        description: "E-mail enviado com sucesso"
+      });
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Aconteceu algum problema!",
+        description: "Tente novamente mais tarde."
+      });
+    }
     return;
   }
 

@@ -1,9 +1,11 @@
-import { ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode } from "react";
+
 import { buttonVariantStyles } from "./functions";
+import { cn } from "@/utils";
 
 export type ButtonVariant = "filled" | "outline" | "outlineSecondary" | "unstyled";
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   type?: "button" | "submit" | "reset";
   variant?: ButtonVariant;
@@ -23,7 +25,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`${className} ${buttonVariantStyles(variant)}`}
+      className={cn(className, buttonVariantStyles(variant))}
       type={type}
       disabled={disabled}
       onClick={onClick}

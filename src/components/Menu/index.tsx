@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Link from "next/link";
 import Image from "next/image";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Favorite, Logout, ShoppingCart } from "@styled-icons/material-outlined";
+import { AddCircleOutline, Logout, ShoppingCart } from "@styled-icons/material-outlined";
 
 import { Button } from "@/components/Button";
 import { Group } from "@/components/Group";
@@ -42,17 +41,25 @@ export function Menu({ session }: MenuProps) {
 
         <Group>
           <Button variant="outline">
-            <Favorite size={24} />
-          </Button>
-          <Button variant="outlineSecondary">
             <ShoppingCart size={24} />
           </Button>
           {session?.user ? (
-            <Button
-              onClick={handleSignOut}
-              variant="unstyled">
-              <Logout size={24} /> Sair
-            </Button>
+            <Group>
+              <Link href="/products/new">
+                <Button variant="outlineSecondary">
+                  <AddCircleOutline
+                    className="mr-1"
+                    size={24}
+                  />
+                  Produto
+                </Button>
+              </Link>
+              <Button
+                onClick={handleSignOut}
+                variant="unstyled">
+                <Logout size={24} /> Sair
+              </Button>
+            </Group>
           ) : (
             <Link href="/sign-in">
               <Button className="px-5">Login</Button>
