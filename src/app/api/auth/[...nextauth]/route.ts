@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { auth } from "@/lib/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -16,41 +19,29 @@ export const nextAuthOptions: NextAuthOptions = {
         }
       },
 
-      async authorize(credentials) {
-        const response = await fetch("http://localhost:3333/login", {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json"
-          },
-          body: JSON.stringify({
-            email: credentials?.email,
-            password: credentials?.password
+      async authorize(credentials): Promise<any> {
+        return await signInWithEmailAndPassword(
+          auth,
+          (credentials as any).email || "",
+          (credentials as any).password || ""
+        )
+          .then((userCredential) => {
+            if (userCredential.user) {
+              return userCredential.user;
+            }
+            return null;
           })
-        });
-
-        const user = await response.json();
-
-        if (user && response.ok) {
-          return user;
-        }
-
-        return null;
+          .catch((error) => console.log(error))
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage);
+          });
       }
     })
   ],
   pages: {
     signIn: "/sign-in"
-  },
-  callbacks: {
-    async jwt({ token, user }) {
-      user && token.user == user;
-      return;
-    },
-    async session({ session, token }) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      session = token.user as any;
-      return session;
-    }
   }
 };
 

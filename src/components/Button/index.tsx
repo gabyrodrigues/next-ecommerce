@@ -9,12 +9,14 @@ interface ButtonProps {
   variant?: ButtonVariant;
   onClick?: () => void;
   children?: ReactNode;
+  disabled?: boolean;
 }
 
 export function Button({
   className,
   type = "button",
   variant = "filled",
+  disabled = false,
   onClick = () => null,
   children,
   ...rest
@@ -23,6 +25,7 @@ export function Button({
     <button
       className={`${className} ${buttonVariantStyles(variant)}`}
       type={type}
+      disabled={disabled}
       onClick={onClick}
       {...rest}>
       {children}

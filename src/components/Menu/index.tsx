@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Favorite, Logout, ShoppingCart } from "@styled-icons/material-outlined";
@@ -10,10 +12,9 @@ import { Group } from "@/components/Group";
 import { Flex } from "@/components/Flex";
 
 import logo from "../../../public/img/logo-full.svg";
-import { Session } from "next-auth";
 
 interface MenuProps {
-  session: Session;
+  session: Session | null;
 }
 
 export function Menu({ session }: MenuProps) {
@@ -46,15 +47,12 @@ export function Menu({ session }: MenuProps) {
           <Button variant="outlineSecondary">
             <ShoppingCart size={24} />
           </Button>
-          {session ? (
-            <Group>
-              Olá, {session?.user?.name}{" "}
-              <Button
-                onClick={handleSignOut}
-                variant="unstyled">
-                <Logout size={24} /> Sair
-              </Button>
-            </Group>
+          {session?.user ? (
+            <Button
+              onClick={handleSignOut}
+              variant="unstyled">
+              <Logout size={24} /> Sair
+            </Button>
           ) : (
             <Link href="/sign-in">
               <Button className="px-5">Login</Button>

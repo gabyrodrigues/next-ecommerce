@@ -2,12 +2,12 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { FormSignUp } from "@/components/FormSignUp";
+import { FormForgotPassword } from "@/components/FormForgotPassword";
 import { Flex } from "@/components/Flex";
 
 import logo from "../../../../public/img/logo.svg";
 
-export default function SignUp() {
+export default function ForgotPassword() {
   return (
     <Flex className="flex-col justify-center items-center">
       <Link href="/">
@@ -18,8 +18,8 @@ export default function SignUp() {
         />
       </Link>
 
-      <h2 className="text-black text-4xl font-bold ml-auto mr-auto mb-4">Cadastro</h2>
-      <FormSignUp />
+      <h2 className="text-black text-4xl font-bold ml-auto mr-auto mb-4">Esqueci minha senha</h2>
+      <FormForgotPassword />
     </Flex>
   );
 }

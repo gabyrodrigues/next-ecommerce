@@ -32,10 +32,10 @@ export default async function AuthLayout({ children }: AuthProps) {
           </Link>
 
           <div>
-            <h2>The best products in one place</h2>
+            <h2>Os melhores produtos reunidos em um só lugar</h2>
             <h3 className="text-3xl font-light mt-2">
-              <strong className="text-black font-bold">Next E-commerce</strong> is the best and most
-              complete products e-commerce.
+              <strong className="text-black font-bold">Next E-commerce</strong> o melhor e mais
+              completo e-commerce de produtos.
             </h3>
           </div>
 
