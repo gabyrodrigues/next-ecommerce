@@ -40,6 +40,17 @@ export const nextAuthOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/sign-in"
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      user && token.user == user;
+      return;
+    },
+    async session({ session, token }) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      session = token.user as any;
+      return session;
+    }
   }
 };
 

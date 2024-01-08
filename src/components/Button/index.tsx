@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { buttonVariantStyles } from "./functions";
 
-export type ButtonVariant = "filled" | "outline" | "outlineSecondary";
+export type ButtonVariant = "filled" | "outline" | "outlineSecondary" | "unstyled";
 
 interface ButtonProps {
   className?: string;

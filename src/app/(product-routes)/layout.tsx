@@ -17,7 +17,7 @@ export default async function PrivateLayout({ children }: PrivateLayoutProps) {
 
   return (
     <>
-      <Menu />
+      <Menu session={session} />
       {children}
     </>
   );

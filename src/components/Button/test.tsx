@@ -39,4 +39,13 @@ describe("<Button />", () => {
 
     expect(buttonClassNames).toBeTruthy();
   });
+  it("should render variant Unstyled correct classNames", () => {
+    const button = render(<Button variant="unstyled" />);
+
+    const classNames =
+      "p-2 font-semibold bg-transparent text-secondary hover:text-white disabled:bg-transparent disabled:text-gray-900 disabled:opacity-30";
+    const buttonClassNames = button.getByRole("button").className.includes(classNames);
+
+    expect(buttonClassNames).toBeTruthy();
+  });
 });

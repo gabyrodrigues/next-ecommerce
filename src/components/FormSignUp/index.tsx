@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Email, Lock } from "@styled-icons/material-outlined";
+import { Email, Lock, Person } from "@styled-icons/material-outlined";
 import * as z from "zod";
 
 import { TextField } from "@/components/TextField";
@@ -13,6 +13,7 @@ export function FormSignUp() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
       confirmPassword: ""
@@ -28,6 +29,24 @@ export function FormSignUp() {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-3">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <TextField
+                  placeholder="Name"
+                  type="text"
+                  icon={<Person />}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="email"
