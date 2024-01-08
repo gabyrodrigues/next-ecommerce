@@ -1,14 +1,22 @@
-"use client";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
 import logo from "../../../public/img/logo.svg";
 import Image from "next/image";
+import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
 
 interface AuthProps {
   children: React.ReactNode;
 }
 
-export default function AuthTemplate({ children }: AuthProps) {
+export default async function AuthLayout({ children }: AuthProps) {
+  const session = await getServerSession(nextAuthOptions);
+
+  if (session) {
+    redirect("/");
+  }
+
   return (
     <main className="grid grid-cols-1 md:grid-cols-2 h-screen">
       <div className="hidden md:block bg-[url('/img/auth-bg.png')] bg-center bg-cover pt-14 px-14 pb-10 after:content-[''] after:bg-darkGray after:bottom-0 after:left-0 after:opacity-85 after:absolute after:right-0 after:top-0">

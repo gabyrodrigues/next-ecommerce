@@ -91,7 +91,7 @@ export function FormSignUp() {
           Already have an account?{" "}
           <Link
             className="border-b-2 border-solid border-b-secondary text-secondary"
-            href="/auth/sign-in">
+            href="/sign-in">
             Sign in
           </Link>
         </div>
