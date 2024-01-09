@@ -8,7 +8,7 @@ export const formSchema = z.object({
   description: z.string().min(10),
   price: z.string().min(4),
   image: z
-    .instanceof(File)
+    .custom<File>((file) => file instanceof File)
     .refine((file) => file.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files.type),

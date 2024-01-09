@@ -1,20 +1,25 @@
 "use client";
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import { AddShoppingCart } from "@styled-icons/material-outlined";
 
-import { Container } from "@/components/Container";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
+  CardImage,
   CardTitle
 } from "@/components/ProductCard";
+import { Container } from "@/components/Container";
 import { Grid } from "@/components/Grid";
 import { Flex } from "@/components/Flex";
 import { Loader } from "@/components/Loader";
+import { Button } from "@/components/Button";
+
 import { Product, getProductsSnapshot } from "@/lib/firebase/firestore";
+import { handleConvertPriceToBRL } from "@/utils/formatCurrency";
+import { HoverCard, HoverCardTrigger } from "@/components/HoverCard";
+import { HoverCardContent } from "@radix-ui/react-hover-card";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -48,24 +53,35 @@ export default function Home() {
           <Grid>
             {products.map((product) => (
               <Card key={product.id}>
-                <CardHeader>
-                  <Image
-                    src={`https://firebasestorage.googleapis.com/v0/b/next-ecommerce-2fa59.appspot.com/o/${encodeURIComponent(
-                      product.image
-                    )}?alt=media`}
-                    alt="Product Image"
-                    width={300}
-                    height={250}
-                    className="h-auto w-full"
-                  />
-                  <CardTitle>{product.name}</CardTitle>
-                  <CardDescription>{product.description}</CardDescription>
-                </CardHeader>
+                <CardImage
+                  src={`https://firebasestorage.googleapis.com/v0/b/next-ecommerce-2fa59.appspot.com/o/${encodeURIComponent(
+                    product.image
+                  )}?alt=media`}
+                  alt={product.name}
+                  priority
+                />
                 <CardContent>
-                  <p>Card Content</p>
+                  <CardTitle>{product.name}</CardTitle>
+
+                  <HoverCard>
+                    <HoverCardTrigger>
+                      <CardDescription>{product.description}</CardDescription>
+                    </HoverCardTrigger>
+
+                    <HoverCardContent>
+                      <CardTitle>{product.name}</CardTitle>
+                      <CardDescription>{product.description}</CardDescription>
+                    </HoverCardContent>
+                  </HoverCard>
                 </CardContent>
                 <CardFooter>
-                  <p>Card Footer</p>
+                  <p className="text-black font-bold text-lg">
+                    {handleConvertPriceToBRL(+product.price)}
+                  </p>
+
+                  <Button>
+                    <AddShoppingCart size={24} />
+                  </Button>
                 </CardFooter>
               </Card>
             ))}

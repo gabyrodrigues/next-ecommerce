@@ -1,17 +1,40 @@
 import * as React from "react";
 
 import { cn } from "@/utils";
+import Image, { ImageProps } from "next/image";
 
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("rounded-xl border bg-card text-card-foreground shadow", className)}
+      className={cn("block rounded-xl overflow-hidden bg-lightGray text-black", className)}
       {...props}
     />
   )
 );
 Card.displayName = "Card";
+
+interface CardImageProps extends ImageProps {
+  height?: number | `${number}` | undefined;
+  width?: number | `${number}` | undefined;
+}
+
+const CardImage = React.forwardRef<HTMLImageElement, CardImageProps>(
+  ({ className, src = "", height = 256, width = 300, alt = "Card Image", ...props }, ref) => (
+    <div className="overflow-hidden">
+      <Image
+        src={src}
+        alt={alt}
+        ref={ref}
+        height={height}
+        width={width}
+        className={cn("w-full h-64 object-cover object-center", className)}
+        {...props}
+      />
+    </div>
+  )
+);
+CardImage.displayName = "CardImage";
 
 const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
@@ -28,7 +51,7 @@ const CardTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HT
   ({ className, ...props }, ref) => (
     <h3
       ref={ref}
-      className={cn("font-semibold leading-none tracking-tight", className)}
+      className={cn("font-bold text-xl leading-none tracking-tight", className)}
       {...props}
     />
   )
@@ -41,7 +64,7 @@ const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn("text-sm mt-1 text-darkGray truncate line-clamp-3 whitespace-normal", className)}
     {...props}
   />
 ));
@@ -51,7 +74,7 @@ const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDi
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("p-6 pt-0", className)}
+      className={cn("p-5 min-w-0", className)}
       {...props}
     />
   )
@@ -62,11 +85,11 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("flex items-center p-6 pt-0", className)}
+      className={cn("flex items-center justify-between p-6 pt-0", className)}
       {...props}
     />
   )
 );
 CardFooter.displayName = "CardFooter";
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent };
+export { Card, CardHeader, CardImage, CardFooter, CardTitle, CardDescription, CardContent };

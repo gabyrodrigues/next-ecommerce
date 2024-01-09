@@ -40,7 +40,6 @@ export function FormNewProduct() {
       const productName = match ? match[1] : null;
       const fileExtension = match ? match[2] : null;
       const filePath = `${productBucket}/${productName}${fileExtension}`;
-      // const filePath = `images/${restaurantId}/${image.name}`;
       const storageRef = ref(storage, filePath);
       await uploadBytesResumable(storageRef, values.image);
 
