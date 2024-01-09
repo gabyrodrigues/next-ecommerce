@@ -16,11 +16,11 @@ import { Grid } from "@/components/Grid";
 import { Flex } from "@/components/Flex";
 import { Loader } from "@/components/Loader";
 import { Button } from "@/components/Button";
+import { HoverCard, HoverCardTrigger } from "@/components/HoverCard";
 
+import { CartContext } from "@/contexts/Cart";
 import { Product, getProductsSnapshot } from "@/lib/firebase/firestore";
 import { handleConvertPriceToBRL } from "@/utils/formatCurrency";
-import { CartContext } from "@/contexts/Cart";
-import { HoverCard, HoverCardTrigger } from "@/components/HoverCard";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);

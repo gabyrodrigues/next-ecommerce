@@ -9,8 +9,8 @@ import * as z from "zod";
 import { TextField } from "@/components/TextField";
 import { Button } from "@/components/Button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/Form";
+import { auth } from "@/lib/firebase";
 import { formSchema } from "./schema";
-import { auth } from "@/lib/firebase/firebase";
 
 export function FormSignUp() {
   const router = useRouter();
