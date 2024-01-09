@@ -57,7 +57,11 @@ export function Menu({ session }: MenuProps) {
               <Button
                 onClick={handleSignOut}
                 variant="unstyled">
-                <Logout size={24} /> Sair
+                <Logout
+                  className="mr-1"
+                  size={24}
+                />
+                Sair
               </Button>
             </Group>
           ) : (

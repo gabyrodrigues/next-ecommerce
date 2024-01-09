@@ -11,56 +11,66 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ProductCard";
-import { collection, onSnapshot, query } from "firebase/firestore";
-import { db } from "@/lib/firebase";
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: string;
-  image: string;
-}
+import { Grid } from "@/components/Grid";
+import { Flex } from "@/components/Flex";
+import { Loader } from "@/components/Loader";
+import { Product, getProductsSnapshot } from "@/lib/firebase/firestore";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setLoading] = useState(true);
+
+  async function handleLoadProducts() {
+    setLoading(true);
+
+    const unsubscribe = await getProductsSnapshot((data) => {
+      setProducts(data);
+    });
+    setLoading(false);
+
+    return () => {
+      unsubscribe();
+    };
+  }
 
   useEffect(() => {
-    const q = query(collection(db, "products"));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const itemsArr: Product[] = [];
-      querySnapshot.forEach((doc) => {
-        itemsArr.push({ ...(doc.data() as Product), id: doc.id });
-      });
-      setProducts(itemsArr);
-      return () => unsubscribe();
-    });
+    handleLoadProducts();
   }, []);
 
   return (
     <>
       <Container className="max-w-screen-xl py-16 text-center">
-        {products.map((product, id) => (
-          <Card key={id}>
-            <CardHeader>
-              <Image
-                src={`https://firebasestorage.googleapis.com/v0/b/next-ecommerce-2fa59.appspot.com/o/product%2Flipstick.jpg?alt=media`}
-                alt="Product Image"
-                width={300}
-                height={250}
-                className="h-auto w-full"
-              />
-              <CardTitle>{product.name}</CardTitle>
-              <CardDescription>Card Description</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Card Content</p>
-            </CardContent>
-            <CardFooter>
-              <p>Card Footer</p>
-            </CardFooter>
-          </Card>
-        ))}
+        {isLoading ? (
+          <Flex className="items-center justify-center">
+            <Loader />
+          </Flex>
+        ) : (
+          <Grid>
+            {products.map((product) => (
+              <Card key={product.id}>
+                <CardHeader>
+                  <Image
+                    src={`https://firebasestorage.googleapis.com/v0/b/next-ecommerce-2fa59.appspot.com/o/${encodeURIComponent(
+                      product.image
+                    )}?alt=media`}
+                    alt="Product Image"
+                    width={300}
+                    height={250}
+                    className="h-auto w-full"
+                  />
+                  <CardTitle>{product.name}</CardTitle>
+                  <CardDescription>{product.description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>Card Content</p>
+                </CardContent>
+                <CardFooter>
+                  <p>Card Footer</p>
+                </CardFooter>
+              </Card>
+            ))}
+          </Grid>
+        )}
       </Container>
     </>
   );
