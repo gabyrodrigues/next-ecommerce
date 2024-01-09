@@ -1,36 +1,28 @@
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import React from "react";
 
-import { buttonVariantStyles } from "./functions";
+import { buttonVariants } from "./functions";
 import { cn } from "@/utils";
+import { VariantProps } from "class-variance-authority";
+import { Slot } from "@radix-ui/react-slot";
 
-export type ButtonVariant = "filled" | "outline" | "outlineSecondary" | "unstyled";
-
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: string;
-  type?: "button" | "submit" | "reset";
-  variant?: ButtonVariant;
-  onClick?: () => void;
-  children?: ReactNode;
-  disabled?: boolean;
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
 }
 
-export function Button({
-  className,
-  type = "button",
-  variant = "filled",
-  disabled = false,
-  onClick = () => null,
-  children,
-  ...rest
-}: ButtonProps) {
-  return (
-    <button
-      className={cn(className, buttonVariantStyles(variant))}
-      type={type}
-      disabled={disabled}
-      onClick={onClick}
-      {...rest}>
-      {children}
-    </button>
-  );
-}
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
+Button.displayName = "Button";
+
+export { Button };

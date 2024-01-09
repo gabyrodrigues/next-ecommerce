@@ -27,7 +27,7 @@ export default function Home() {
   const [isLoading, setLoading] = useState(true);
 
   const { handleAddToCart } = useContext(CartContext);
-  // const cartTotalPrice =  cartItems.reduce((acc, current) => acc + current.price,0);
+
   async function handleLoadProducts() {
     setLoading(true);
 

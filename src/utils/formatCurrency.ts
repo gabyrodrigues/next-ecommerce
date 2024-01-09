@@ -10,3 +10,9 @@ export function handleConvertPriceNumberToString(price: number) {
     minimumFractionDigits: 2,
   }).format(price)
 }
+
+export function handleFormatCurrencyToFloat(value: string) {
+  const convertedValue = parseFloat(value.replace(/[^\d,]+/g, "").replace(",", "."));
+
+  return convertedValue;
+}

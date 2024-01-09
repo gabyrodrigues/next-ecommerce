@@ -4,11 +4,12 @@ import Image from "next/image";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { AddCircleOutline, Logout, ShoppingCart } from "@styled-icons/material-outlined";
+import { AddCircleOutline, Logout } from "@styled-icons/material-outlined";
 
 import { Button } from "@/components/Button";
 import { Group } from "@/components/Group";
 import { Flex } from "@/components/Flex";
+import CartSheet from "@/components/Cart/CartSheet";
 
 import logo from "../../../public/img/logo-full.svg";
 
@@ -40,13 +41,11 @@ export function Menu({ session }: MenuProps) {
         </Link>
 
         <Group>
-          <Button variant="outline">
-            <ShoppingCart size={24} />
-          </Button>
+          <CartSheet />
           {session?.user ? (
             <Group>
               <Link href="/products/new">
-                <Button variant="outlineSecondary">
+                <Button variant="secondary">
                   <AddCircleOutline
                     className="mr-1"
                     size={24}
@@ -56,7 +55,7 @@ export function Menu({ session }: MenuProps) {
               </Link>
               <Button
                 onClick={handleSignOut}
-                variant="unstyled">
+                variant="ghost">
                 <Logout
                   className="mr-1"
                   size={24}

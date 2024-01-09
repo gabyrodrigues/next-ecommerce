@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { useToast } from "@/components/Toast/useToast";
 import { InputFile } from "@/components/InputFile";
 import { formSchema } from "./schema";
+import { handleFormatCurrencyToFloat } from "@/utils/formatCurrency";
 import { db } from "@/lib/firebase";
 
 export function FormNewProduct() {
@@ -47,7 +48,7 @@ export function FormNewProduct() {
       await addDoc(collection(db, "products"), {
         name: values.name.trim(),
         description: values.description.trim(),
-        price: Number(values.price),
+        price: handleFormatCurrencyToFloat(values.price),
         image: filePath
       });
       toast({
