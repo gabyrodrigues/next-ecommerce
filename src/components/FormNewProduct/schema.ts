@@ -13,5 +13,6 @@ export const formSchema = z.object({
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files.type),
       "Only .jpg, .jpeg, .png and .webp formats are supported."
-    )
+    ),
+  availableQuantity: z.number().min(1)
 });

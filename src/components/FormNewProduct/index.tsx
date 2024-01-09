@@ -24,7 +24,8 @@ export function FormNewProduct() {
       name: "",
       description: "",
       price: "",
-      image: new File([], "")
+      image: new File([], ""),
+      availableQuantity: 1
     }
   });
 
@@ -114,6 +115,25 @@ export function FormNewProduct() {
                   label="Preço"
                   placeholder="Preço do produto"
                   type="text"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="availableQuantity"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <TextField
+                  label="Quantidade disponível"
+                  placeholder="Quantidade de produtos disponíveis no estoque"
+                  type="number"
+                  min={1}
                   {...field}
                 />
               </FormControl>

@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { HoverCardContent } from "@radix-ui/react-hover-card";
 import { AddShoppingCart } from "@styled-icons/material-outlined";
 
 import {
@@ -18,13 +19,15 @@ import { Button } from "@/components/Button";
 
 import { Product, getProductsSnapshot } from "@/lib/firebase/firestore";
 import { handleConvertPriceToBRL } from "@/utils/formatCurrency";
+import { CartContext } from "@/contexts/Cart";
 import { HoverCard, HoverCardTrigger } from "@/components/HoverCard";
-import { HoverCardContent } from "@radix-ui/react-hover-card";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setLoading] = useState(true);
 
+  const { handleAddToCart } = useContext(CartContext);
+  // const cartTotalPrice =  cartItems.reduce((acc, current) => acc + current.price,0);
   async function handleLoadProducts() {
     setLoading(true);
 
@@ -79,7 +82,7 @@ export default function Home() {
                     {handleConvertPriceToBRL(+product.price)}
                   </p>
 
-                  <Button>
+                  <Button onClick={() => handleAddToCart(product)}>
                     <AddShoppingCart size={24} />
                   </Button>
                 </CardFooter>

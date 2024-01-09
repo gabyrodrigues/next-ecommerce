@@ -7,7 +7,10 @@ const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("block rounded-xl overflow-hidden bg-lightGray text-black", className)}
+      className={cn(
+        "flex flex-col h-full rounded-xl overflow-hidden bg-lightGray text-black",
+        className
+      )}
       {...props}
     />
   )
@@ -21,14 +24,14 @@ interface CardImageProps extends ImageProps {
 
 const CardImage = React.forwardRef<HTMLImageElement, CardImageProps>(
   ({ className, src = "", height = 256, width = 300, alt = "Card Image", ...props }, ref) => (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden w-full h-64">
       <Image
         src={src}
         alt={alt}
         ref={ref}
+        className={cn("w-full h-64 object-cover object-center", className)}
         height={height}
         width={width}
-        className={cn("w-full h-64 object-cover object-center", className)}
         {...props}
       />
     </div>
@@ -85,7 +88,7 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("flex items-center justify-between p-6 pt-0", className)}
+      className={cn("flex mt-auto items-center justify-between p-6 pt-0", className)}
       {...props}
     />
   )

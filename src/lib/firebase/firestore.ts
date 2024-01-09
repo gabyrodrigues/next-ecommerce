@@ -8,6 +8,7 @@ export interface Product {
   description: string;
   price: string;
   image: string;
+  quantityAvailable: string;
 }
 
 export async function getProducts() {
