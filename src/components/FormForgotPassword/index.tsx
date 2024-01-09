@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { sendPasswordResetEmail } from "firebase/auth";
 import * as z from "zod";
-import { auth } from "@/lib/firebase";
+import { auth } from "@/lib/firebase/firebase";
 
 import { TextField } from "@/components/TextField";
 import { Button } from "@/components/Button";
