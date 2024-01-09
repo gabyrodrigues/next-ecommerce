@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 import { getServerSession } from "next-auth";
 
 import logo from "../../../public/img/logo.svg";
-import Image from "next/image";
-import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
+import { nextAuthOptions } from "@/utils/authOptions";
 
 interface AuthProps {
   children: React.ReactNode;
