@@ -11,20 +11,17 @@ import { ProductContext } from "@/contexts/Product";
 export default function Home() {
   const { isLoading, products, handleLoadProducts } = useContext(ProductContext);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const unsubscribe = await handleLoadProducts();
-        return () => {
-          unsubscribe();
-        };
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  async function fetchProducts() {
+    try {
+      await handleLoadProducts();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-    fetchData();
-  }, [handleLoadProducts]);
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <>

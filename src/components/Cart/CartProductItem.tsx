@@ -27,7 +27,7 @@ export function CartProductItem({ product }: CartProductItemProps) {
         />
       </div>
       <div className="flex flex-1 flex-col gap-1 self-start text-sm">
-        <span className="text-white line-clamp-1">{product.name}</span>
+        <span className="text-white line-clamp-1">{product.name.join(" ")}</span>
         <span className="text-white  line-clamp-1 text-muted-foreground">
           {handleConvertPriceToBRL(product.price)} x {product.quantity} ={" "}
         </span>

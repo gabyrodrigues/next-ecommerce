@@ -15,17 +15,11 @@ export default function ProductContextProvider(props: ProductContextProviderProp
   async function handleLoadProducts(filters: FilterOptions = {}) {
     setLoading(true);
 
-    try {
-      const unsubscribe = await getProductsSnapshot((data) => {
-        setProducts(data);
-      }, filters);
+    await getProductsSnapshot((data) => {
+      setProducts(data);
+    }, filters);
 
-      setLoading(false);
-      return unsubscribe;
-    } catch (error) {
-      setLoading(false);
-      throw error;
-    }
+    setLoading(false);
   }
 
   const values = {

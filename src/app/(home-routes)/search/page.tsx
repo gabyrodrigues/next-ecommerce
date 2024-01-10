@@ -19,20 +19,13 @@ export default function SearchPage({
 
   const query = searchParams?.query || "";
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const unsubscribe = await handleLoadProducts({ name: query });
-        return () => {
-          unsubscribe();
-        };
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  async function fetchProducts() {
+    await handleLoadProducts({ name: query });
+  }
 
-    fetchData();
-  }, [query, handleLoadProducts]);
+  useEffect(() => {
+    fetchProducts();
+  }, [query]);
 
   return (
     <>
