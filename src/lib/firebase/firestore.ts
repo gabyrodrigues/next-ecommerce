@@ -54,7 +54,7 @@ export async function createProducts(product: z.infer<typeof productSchema>): Pr
 
 function applyQueryFilters(q: Query<DocumentData, DocumentData>, filters: FilterOptions) {
   if (filters.name) {
-    q = query(q, where("name", "array-contains-any", filters.name));
+    q = query(q, where("name", "array-contains-any", filters.name.trim().split(" ")));
   }
   return q;
 }
@@ -78,6 +78,7 @@ export async function getProductsSnapshot(
         id: doc.id
       };
     });
+    console.log({ results });
     cb(results);
   });
 
