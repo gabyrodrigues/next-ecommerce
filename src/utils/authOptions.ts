@@ -31,7 +31,6 @@ export const nextAuthOptions: NextAuthOptions = {
             }
             return null;
           })
-          .catch((error) => console.log(error))
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;

@@ -8,7 +8,7 @@ export const formSchema = z.object({
   description: z
     .string()
     .min(10, { message: "A descrição do produto precisa ter 5 ou mais caracteres" }),
-  price: z.string().min(4, { message: "Valor inválido" }),
+  price: z.number(),
   image: z
     .custom<File>((file) => file instanceof File)
     .refine((file) => file.size <= MAX_FILE_SIZE, `O tamanho máximo de imagem é 5MB`)

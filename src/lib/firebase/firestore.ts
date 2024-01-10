@@ -1,10 +1,11 @@
 import { addDoc, collection, getDocs, onSnapshot, query } from "firebase/firestore";
-import { db } from ".";
-import { Unsubscribe } from "firebase/auth";
-import { handleFormatCurrencyToFloat } from "@/utils/formatCurrency";
-import * as z from "zod";
-import { formSchema as productSchema } from "@/components/FormNewProduct/schema";
 import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { Unsubscribe } from "firebase/auth";
+import * as z from "zod";
+
+import { formSchema as productSchema } from "@/components/FormNewProduct/schema";
+import { randomId } from "@/utils";
+import { db } from ".";
 
 export interface Product {
   id: string;
@@ -15,10 +16,15 @@ export interface Product {
   quantityAvailable: number;
 }
 
-export async function createProducts(
-  product: z.infer<typeof productSchema>,
-  filePath: string
-): Promise<void> {
+export async function createProducts(product: z.infer<typeof productSchema>): Promise<void> {
+  const regex = /^(.+?)(\.\w+)$/;
+  const match = product.name.match(regex);
+  const productBucket = "product";
+  const productName = match ? match[1] : null;
+  const fileExtension = match ? match[2] : null;
+
+  const filePath = `${productBucket}/${randomId(16)}-${productName}${fileExtension}`;
+
   const storage = getStorage();
   const storageRef = ref(storage, filePath);
 
@@ -27,7 +33,7 @@ export async function createProducts(
   await addDoc(collection(db, "products"), {
     name: product.name.trim(),
     description: product.description.trim(),
-    price: handleFormatCurrencyToFloat(String(product.price)),
+    price: product.price,
     image: filePath
   });
 }

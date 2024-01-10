@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -9,36 +10,36 @@ import { Button } from "@/components/Button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/Form";
 import { useToast } from "@/components/Toast/useToast";
 import { InputFile } from "@/components/InputFile";
-import { formSchema } from "./schema";
+
+import { currencyToFloat, handleConvertPriceToBRL, maskCurrency } from "@/utils/formatCurrency";
 import { createProducts } from "@/lib/firebase/firestore";
+import { formSchema } from "./schema";
 
 export function FormNewProduct() {
   const router = useRouter();
+  const submitRef = useRef<HTMLButtonElement | null>(null);
   const { toast } = useToast();
+
+  const [price, setPrice] = useState<string>(handleConvertPriceToBRL(0));
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       description: "",
-      price: "",
+      price: 0,
       image: new File([], ""),
       availableQuantity: 1
     }
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    if (submitRef.current) {
+      submitRef.current.disabled = true;
+    }
+
     try {
-      const regex = /^(.+?)(\.\w+)$/;
-      const match = form.getValues("image").name.match(regex);
-      const productBucket = "product";
-      const productName = match ? match[1] : null;
-      const fileExtension = match ? match[2] : null;
-
-      const filePath = `${productBucket}/${productName}${fileExtension}`;
-
-      await createProducts(values, filePath);
+      await createProducts(values);
 
       toast({
         title: "Produto cadastrado com sucesso!"
@@ -51,6 +52,10 @@ export function FormNewProduct() {
         title: "Aconteceu algum problema!",
         description: "Tente novamente mais tarde."
       });
+    }
+
+    if (submitRef.current) {
+      submitRef.current.disabled = false;
     }
   }
 
@@ -102,10 +107,16 @@ export function FormNewProduct() {
             <FormItem>
               <FormControl>
                 <TextField
+                  {...field}
                   label="Preço"
                   placeholder="Preço do produto"
                   type="text"
-                  {...field}
+                  value={price}
+                  onChange={(event) => {
+                    const formattedValue = maskCurrency(event.target.value);
+                    setPrice(formattedValue);
+                    form.setValue("price", currencyToFloat(formattedValue));
+                  }}
                 />
               </FormControl>
               <FormMessage />
@@ -155,6 +166,7 @@ export function FormNewProduct() {
           disabled={
             !form.getValues("name") || !form.getValues("description") || !form.getValues("price")
           }
+          ref={submitRef}
           type="submit"
           className="w-full">
           Cadastrar novo produto
