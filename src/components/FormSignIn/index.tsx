@@ -44,7 +44,7 @@ export function FormSignIn() {
         description: "Verifique seus dados e tente novamente."
       });
     } else {
-      router.replace("/");
+      router.push("/");
     }
 
     if (submitRef.current) {

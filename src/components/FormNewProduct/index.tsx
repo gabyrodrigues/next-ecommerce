@@ -53,8 +53,7 @@ export function FormNewProduct() {
       });
     }
   }
-  console.log(form.getValues("availableQuantity"));
-  console.log(typeof form.getValues("availableQuantity"));
+
   return (
     <Form {...form}>
       <form

@@ -38,7 +38,7 @@ export function FormSignUp() {
       toast({
         title: "Usuário cadastrado com sucesso!"
       });
-      router.replace("/");
+      router.replace("/sign-in");
     } catch (error) {
       console.log(error);
       toast({

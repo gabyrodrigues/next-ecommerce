@@ -12,7 +12,7 @@ export interface Product {
   description: string;
   price: number;
   image: string;
-  quantityAvailable: string;
+  quantityAvailable: number;
 }
 
 export async function createProducts(

@@ -35,6 +35,7 @@ export function CartItemActions({ product }: CartItemActionsProps) {
       <Button
         variant="outline"
         className="h-8 w-8 text-white"
+        disabled={product.quantityAvailable >= product.quantity}
         onClick={() => {
           handleAddQuantityToCartItem(product);
         }}>

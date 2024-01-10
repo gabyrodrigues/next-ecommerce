@@ -1,14 +1,17 @@
-import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { CartProductItem } from "./CartProductItem";
-import { CartContext, CartItem } from "@/contexts/Cart";
-import { Separator } from "@radix-ui/react-separator";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/Sheet";
-import { ShoppingCart } from "@styled-icons/material-outlined";
-import { Button } from "@/components/Button";
 import { useContext } from "react";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { Separator } from "@radix-ui/react-separator";
+import { ShoppingCart } from "@styled-icons/material-outlined";
+
+import { CartContext, CartItem } from "@/contexts/Cart";
+import { handleConvertPriceToBRL } from "@/utils/formatCurrency";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/Sheet";
+import { Button } from "@/components/Button";
+import { Flex } from "@/components/Flex";
+import { CartProductItem } from "./CartProductItem";
 
 export default function CartSheet() {
-  const { cartItems, handleClearCart } = useContext(CartContext);
+  const { cartItems, cartTotalPrice, handleClearCart } = useContext(CartContext);
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
@@ -46,13 +49,26 @@ export default function CartSheet() {
           </div>
         )}
 
-        <Button className="ml-2">Fechar pedido</Button>
-        <Button
-          variant="outline"
-          className="ml-2"
-          onClick={handleClearCart}>
-          Limpar carrinho
-        </Button>
+        {cartTotalPrice > 0 && (
+          <Flex className="justify-between">
+            <h2 className="text-xl text-white font-semibold">Total do pedido:</h2>
+            <p className="text-xl text-white font-semibold">
+              {handleConvertPriceToBRL(+cartTotalPrice)}
+            </p>
+          </Flex>
+        )}
+
+        {itemCount > 0 && (
+          <>
+            <Button className="ml-2">Fechar pedido</Button>
+            <Button
+              variant="outline"
+              className="ml-2"
+              onClick={handleClearCart}>
+              Limpar carrinho
+            </Button>
+          </>
+        )}
       </SheetContent>
     </Sheet>
   );
