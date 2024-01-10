@@ -21,6 +21,7 @@ const config: Config = {
       colors: {
         primary: "#F231A5",
         secondary: "#3CD3C1",
+        background: "#06092B",
         darkPrimary: "#DA0D89",
         darkSecondary: "#27B0A0",
         mainBg: "#06092B",
@@ -31,6 +32,7 @@ const config: Config = {
         red: "#FF6347",
         white: "#FAFAFA",
         black: "#030517",
+        destructive: "#c35756",
         transparent: "transparent"
       }
     }

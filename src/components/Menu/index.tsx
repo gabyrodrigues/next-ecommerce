@@ -42,17 +42,18 @@ export function Menu({ session }: MenuProps) {
 
         <Group>
           <CartSheet />
-          {session?.user ? (
-            <Group>
-              <Link href="/products/new">
-                <Button variant="secondary">
-                  <AddCircleOutline
-                    className="mr-1"
-                    size={24}
-                  />
-                  Produto
-                </Button>
-              </Link>
+
+          <Group>
+            <Link href={session?.user ? "/products/new" : "/sign-in"}>
+              <Button variant="secondary">
+                <AddCircleOutline
+                  className="mr-1"
+                  size={24}
+                />
+                Produto
+              </Button>
+            </Link>
+            {session?.user ? (
               <Button
                 onClick={handleSignOut}
                 variant="ghost">
@@ -62,12 +63,12 @@ export function Menu({ session }: MenuProps) {
                 />
                 Sair
               </Button>
-            </Group>
-          ) : (
-            <Link href="/sign-in">
-              <Button className="px-5">Login</Button>
-            </Link>
-          )}
+            ) : (
+              <Link href="/sign-in">
+                <Button className="px-5">Login</Button>
+              </Link>
+            )}
+          </Group>
         </Group>
       </Flex>
     </Flex>

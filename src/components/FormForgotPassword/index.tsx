@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import Link from "next/link";
 import { Email } from "@styled-icons/material-outlined";
 
@@ -15,6 +16,7 @@ import { formSchema } from "./schema";
 
 export function FormForgotPassword() {
   const { toast } = useToast();
+  const submitRef = useRef<HTMLButtonElement | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -24,20 +26,29 @@ export function FormForgotPassword() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (submitRef.current) {
+      submitRef.current.disabled = true;
+    }
+
     try {
       await sendPasswordResetEmail(auth, values.email);
       toast({
-        description: "E-mail enviado com sucesso"
+        title: "E-mail enviado com sucesso!",
+        description:
+          "Se a conta estiver cadastrada, verifique o e-mail em sua caixa de entrada ou spam"
       });
     } catch (error) {
       console.log(error);
       toast({
         variant: "destructive",
         title: "Aconteceu algum problema!",
-        description: "Tente novamente mais tarde."
+        description: "Verifique seus dados e tente novamente."
       });
     }
-    return;
+
+    if (submitRef.current) {
+      submitRef.current.disabled = false;
+    }
   }
 
   return (
@@ -65,6 +76,7 @@ export function FormForgotPassword() {
 
         <Button
           type="submit"
+          ref={submitRef}
           className="w-full">
           Enviar e-mail
         </Button>
@@ -72,7 +84,7 @@ export function FormForgotPassword() {
           Já possui uma conta?{" "}
           <Link
             className="border-b-2 border-solid border-b-secondary text-secondary"
-            href="/sign-up">
+            href="/sign-in">
             Login
           </Link>
         </div>

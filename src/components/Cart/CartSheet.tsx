@@ -46,6 +46,7 @@ export default function CartSheet() {
           </div>
         )}
 
+        <Button className="ml-2">Fechar pedido</Button>
         <Button
           variant="outline"
           className="ml-2"

@@ -62,6 +62,7 @@ export default function Home() {
                   )}?alt=media`}
                   alt={product.name}
                   priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <CardContent>
                   <CardTitle>{product.name}</CardTitle>

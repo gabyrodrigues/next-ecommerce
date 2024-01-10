@@ -1,19 +1,22 @@
-import Link from "next/link";
-import { Email, Lock } from "@styled-icons/material-outlined";
-
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { Email, Lock } from "@styled-icons/material-outlined";
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
 import { TextField } from "@/components/TextField";
 import { Button } from "@/components/Button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/Form";
+import { useToast } from "@/components/Toast/useToast";
 import { formSchema } from "./schema";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 export function FormSignIn() {
   const router = useRouter();
+  const submitRef = useRef<HTMLButtonElement | null>(null);
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -24,6 +27,10 @@ export function FormSignIn() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (submitRef.current) {
+      submitRef.current.disabled = true;
+    }
+
     const result = await signIn("credentials", {
       email: values.email,
       password: values.password,
@@ -31,11 +38,18 @@ export function FormSignIn() {
     });
 
     if (!result?.ok || result?.error) {
-      console.log(result);
-      return;
+      toast({
+        variant: "destructive",
+        title: "Aconteceu algum problema!",
+        description: "Verifique seus dados e tente novamente."
+      });
+    } else {
+      router.replace("/");
     }
 
-    router.replace("/");
+    if (submitRef.current) {
+      submitRef.current.disabled = false;
+    }
   }
 
   return (
@@ -81,6 +95,7 @@ export function FormSignIn() {
 
         <Button
           type="submit"
+          ref={submitRef}
           className="w-full">
           Login
         </Button>

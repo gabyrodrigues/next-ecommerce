@@ -1,4 +1,5 @@
 "use client";
+
 import { Container } from "@/components/Container";
 import { Flex } from "@/components/Flex";
 import { FormNewProduct } from "@/components/FormNewProduct";
