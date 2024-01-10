@@ -3,7 +3,7 @@ import { DeleteOutline } from "@styled-icons/material-outlined";
 
 import { TextField } from "@/components/TextField";
 import { Button } from "@/components/Button";
-import { TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/Tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/Tooltip";
 import { CartContext, CartItem } from "@/contexts/Cart";
 
 interface CartItemActionsProps {
@@ -43,20 +43,25 @@ export function CartItemActions({ product }: CartItemActionsProps) {
         +
       </Button>
       <TooltipProvider>
-        <TooltipTrigger>
-          <Button
-            variant="outline"
-            className="h-8 w-8 p-0"
-            onClick={() => handleRemoveCartItem(product)}>
-            <DeleteOutline
-              color="#F231A5"
-              size={14}
-            />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Remover produto</p>
-        </TooltipContent>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              variant="outline"
+              className="h-8 w-8 p-0"
+              onClick={() => handleRemoveCartItem(product)}
+              asChild={true}>
+              <div>
+                <DeleteOutline
+                  color="#F231A5"
+                  size={16}
+                />
+              </div>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Remover produto</p>
+          </TooltipContent>
+        </Tooltip>
       </TooltipProvider>
     </div>
   );

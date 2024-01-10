@@ -20,7 +20,7 @@ export default function CartContextProvider(props: CartContextProviderProps) {
   function handleCartStates() {
     const localStorageCart = JSON.parse(localStorage.getItem("cart") || "[]");
     const cartTotalPrice = localStorageCart.reduce(
-      (acc: number, current: CartItem) => acc + current.price,
+      (acc: number, current: CartItem) => acc + current.price * current.quantity,
       0
     );
     const cartTotalItems = localStorageCart.reduce(
@@ -84,7 +84,9 @@ export default function CartContextProvider(props: CartContextProviderProps) {
 
   function handleClearCart() {
     setCartItems([]);
-    localStorage.setItem("cart", JSON.stringify("[]"));
+    setCartTotalPrice(0);
+    setCartTotalItems(0);
+    localStorage.setItem("cart", JSON.parse("[]"));
   }
 
   const values = {

@@ -11,22 +11,24 @@ import {
   CardTitle
 } from "@/components/ProductCard";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/HoverCard";
-import { TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/Tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/Tooltip";
 import { Container } from "@/components/Container";
 import { Grid } from "@/components/Grid";
 import { Flex } from "@/components/Flex";
 import { Loader } from "@/components/Loader";
 import { Button } from "@/components/Button";
 
+import { useToast } from "@/components/Toast/useToast";
 import { CartContext } from "@/contexts/Cart";
 import { Product, getProductsSnapshot } from "@/lib/firebase/firestore";
 import { handleConvertPriceToBRL } from "@/utils/formatCurrency";
 
 export default function Home() {
+  const { toast } = useToast();
+  const { handleAddToCart } = useContext(CartContext);
+
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setLoading] = useState(true);
-
-  const { handleAddToCart } = useContext(CartContext);
 
   async function handleLoadProducts() {
     setLoading(true);
@@ -39,6 +41,14 @@ export default function Home() {
     return () => {
       unsubscribe();
     };
+  }
+
+  function handleAddProductItem(product: Product) {
+    handleAddToCart(product);
+    toast({
+      title: "Produto adicionado ao carrinho!",
+      duration: 3000
+    });
   }
 
   useEffect(() => {
@@ -84,14 +94,24 @@ export default function Home() {
                   </p>
 
                   <TooltipProvider>
-                    <TooltipTrigger>
-                      <Button onClick={() => handleAddToCart(product)}>
-                        <AddShoppingCart size={24} />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Adicionar ao carrinho</p>
-                    </TooltipContent>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Button
+                          variant="filled"
+                          onClick={() => handleAddProductItem(product)}
+                          asChild={true}>
+                          <div>
+                            <AddShoppingCart
+                              color="#FAFAFA"
+                              size={24}
+                            />
+                          </div>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Adicionar ao carrinho</p>
+                      </TooltipContent>
+                    </Tooltip>
                   </TooltipProvider>
                 </CardFooter>
               </Card>
