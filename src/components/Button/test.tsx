@@ -6,7 +6,7 @@ describe("<Button />", () => {
     const button = render(<Button />);
 
     const classNames =
-      "p-2 rounded-lg font-semibold bg-primary text-white border-0 hover:bg-darkPrimary";
+      "flex justify-center p-2 rounded-lg font-semibold bg-primary text-white border-0 hover:bg-darkPrimary disabled:border-transparent disabled:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed";
     const buttonClassNames = button.getByRole("button").className.includes(classNames);
 
     expect(buttonClassNames).toBeTruthy();
@@ -16,7 +16,16 @@ describe("<Button />", () => {
     const button = render(<Button variant="filled" />);
 
     const classNames =
-      "p-2 rounded-lg font-semibold bg-primary text-white border-0 hover:bg-darkPrimary";
+      "flex justify-center p-2 rounded-lg font-semibold bg-primary text-white border-0 hover:bg-darkPrimary disabled:border-transparent disabled:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed";
+    const buttonClassNames = button.getByRole("button").className.includes(classNames);
+
+    expect(buttonClassNames).toBeTruthy();
+  });
+  it("should render variant Destructive correct classNames", () => {
+    const button = render(<Button variant="destructive" />);
+
+    const classNames =
+      "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90";
     const buttonClassNames = button.getByRole("button").className.includes(classNames);
 
     expect(buttonClassNames).toBeTruthy();
@@ -25,7 +34,7 @@ describe("<Button />", () => {
     const button = render(<Button variant="outline" />);
 
     const classNames =
-      "p-2 rounded-lg font-semibold bg-transparent text-primary border-white border-2 hover:bg-white hover:border-white hover:text-darkPrimary disabled:bg-transparent disabled:border-2 disabled:border-gray-400 disabled:text-gray-900 disabled:opacity-30";
+      "flex justify-center p-2 rounded-lg font-semibold bg-transparent text-primary border-white border-2 hover:bg-white hover:border-white hover:text-darkPrimary disabled:border-2 disabled:border-gray-400 disabled:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed";
     const buttonClassNames = button.getByRole("button").className.includes(classNames);
 
     expect(buttonClassNames).toBeTruthy();
@@ -34,16 +43,24 @@ describe("<Button />", () => {
     const button = render(<Button variant="secondary" />);
 
     const classNames =
-      "p-2 rounded-lg font-semibold bg-transparent text-secondary border-white border-2 hover:bg-white hover:border-white hover:text-darkSecondary disabled:bg-transparent disabled:border-2 disabled:border-gray-400 disabled:text-gray-900 disabled:opacity-30";
+      "flex justify-center p-2 rounded-lg font-semibold bg-transparent text-secondary border-white border-2 hover:bg-white hover:border-white hover:text-darkSecondary disabled:border-2 disabled:border-gray-400 disabled:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed";
     const buttonClassNames = button.getByRole("button").className.includes(classNames);
 
     expect(buttonClassNames).toBeTruthy();
   });
-  it("should render variant Unstyled correct classNames", () => {
+  it("should render variant Ghost correct classNames", () => {
     const button = render(<Button variant="ghost" />);
 
     const classNames =
-      "p-2 font-semibold bg-transparent text-secondary hover:text-white disabled:bg-transparent disabled:text-gray-900 disabled:opacity-30";
+      "flex justify-center p-2 font-semibold bg-transparent text-secondary hover:text-white disabled:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed";
+    const buttonClassNames = button.getByRole("button").className.includes(classNames);
+
+    expect(buttonClassNames).toBeTruthy();
+  });
+  it("should render variant Link correct classNames", () => {
+    const button = render(<Button variant="link" />);
+
+    const classNames = "text-primary underline-offset-4 hover:underline";
     const buttonClassNames = button.getByRole("button").className.includes(classNames);
 
     expect(buttonClassNames).toBeTruthy();

@@ -2,7 +2,6 @@
 
 exports[`<Button /> should render correct classNames when variant prop is not passed 1`] = `
 <button
-  class="undefined p-2 rounded-lg font-semibold bg-primary text-white border-0 hover:bg-darkPrimary"
-  type="button"
+  class="items-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none flex justify-center p-2 rounded-lg font-semibold bg-primary text-white border-0 hover:bg-darkPrimary disabled:border-transparent disabled:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed h-9 px-4 py-2"
 />
 `;
