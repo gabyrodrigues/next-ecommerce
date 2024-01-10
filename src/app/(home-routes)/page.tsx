@@ -1,6 +1,5 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
-import { HoverCardContent } from "@radix-ui/react-hover-card";
 import { AddShoppingCart } from "@styled-icons/material-outlined";
 
 import {
@@ -11,12 +10,13 @@ import {
   CardImage,
   CardTitle
 } from "@/components/ProductCard";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/HoverCard";
+import { TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/Tooltip";
 import { Container } from "@/components/Container";
 import { Grid } from "@/components/Grid";
 import { Flex } from "@/components/Flex";
 import { Loader } from "@/components/Loader";
 import { Button } from "@/components/Button";
-import { HoverCard, HoverCardTrigger } from "@/components/HoverCard";
 
 import { CartContext } from "@/contexts/Cart";
 import { Product, getProductsSnapshot } from "@/lib/firebase/firestore";
@@ -74,7 +74,7 @@ export default function Home() {
 
                     <HoverCardContent>
                       <CardTitle>{product.name}</CardTitle>
-                      <CardDescription>{product.description}</CardDescription>
+                      <p className="text-sm mt-1">{product.description}</p>
                     </HoverCardContent>
                   </HoverCard>
                 </CardContent>
@@ -83,9 +83,16 @@ export default function Home() {
                     {handleConvertPriceToBRL(+product.price)}
                   </p>
 
-                  <Button onClick={() => handleAddToCart(product)}>
-                    <AddShoppingCart size={24} />
-                  </Button>
+                  <TooltipProvider>
+                    <TooltipTrigger>
+                      <Button onClick={() => handleAddToCart(product)}>
+                        <AddShoppingCart size={24} />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Adicionar ao carrinho</p>
+                    </TooltipContent>
+                  </TooltipProvider>
                 </CardFooter>
               </Card>
             ))}

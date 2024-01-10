@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { DeleteOutline } from "@styled-icons/material-outlined";
 
-import { CartContext, CartItem } from "@/contexts/Cart";
 import { TextField } from "@/components/TextField";
 import { Button } from "@/components/Button";
+import { TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/Tooltip";
+import { CartContext, CartItem } from "@/contexts/Cart";
 
 interface CartItemActionsProps {
   product: CartItem;
@@ -41,15 +42,22 @@ export function CartItemActions({ product }: CartItemActionsProps) {
         }}>
         +
       </Button>
-      <Button
-        variant="outline"
-        className="h-8 w-8 p-0"
-        onClick={() => handleRemoveCartItem(product)}>
-        <DeleteOutline
-          color="#F231A5"
-          size={14}
-        />
-      </Button>
+      <TooltipProvider>
+        <TooltipTrigger>
+          <Button
+            variant="outline"
+            className="h-8 w-8 p-0"
+            onClick={() => handleRemoveCartItem(product)}>
+            <DeleteOutline
+              color="#F231A5"
+              size={14}
+            />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Remover produto</p>
+        </TooltipContent>
+      </TooltipProvider>
     </div>
   );
 }
