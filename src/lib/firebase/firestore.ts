@@ -1,6 +1,10 @@
-import { collection, getDocs, onSnapshot, query } from "firebase/firestore";
+import { addDoc, collection, getDocs, onSnapshot, query } from "firebase/firestore";
 import { db } from ".";
 import { Unsubscribe } from "firebase/auth";
+import { handleFormatCurrencyToFloat } from "@/utils/formatCurrency";
+import * as z from "zod";
+import { formSchema as productSchema } from "@/components/FormNewProduct/schema";
+import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 
 export interface Product {
   id: string;
@@ -9,6 +13,23 @@ export interface Product {
   price: number;
   image: string;
   quantityAvailable: string;
+}
+
+export async function createProducts(
+  product: z.infer<typeof productSchema>,
+  filePath: string
+): Promise<void> {
+  const storage = getStorage();
+  const storageRef = ref(storage, filePath);
+
+  await uploadBytesResumable(storageRef, product.image);
+
+  await addDoc(collection(db, "products"), {
+    name: product.name.trim(),
+    description: product.description.trim(),
+    price: handleFormatCurrencyToFloat(String(product.price)),
+    image: filePath
+  });
 }
 
 export async function getProducts() {

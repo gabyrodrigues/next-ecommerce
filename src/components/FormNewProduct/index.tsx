@@ -1,8 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { addDoc, collection } from "firebase/firestore";
-import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import * as z from "zod";
 
 import { TextField } from "@/components/TextField";
@@ -12,8 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { useToast } from "@/components/Toast/useToast";
 import { InputFile } from "@/components/InputFile";
 import { formSchema } from "./schema";
-import { handleFormatCurrencyToFloat } from "@/utils/formatCurrency";
-import { db } from "@/lib/firebase";
+import { createProducts } from "@/lib/firebase/firestore";
 
 export function FormNewProduct() {
   const router = useRouter();
@@ -35,22 +32,14 @@ export function FormNewProduct() {
     try {
       const regex = /^(.+?)(\.\w+)$/;
       const match = form.getValues("image").name.match(regex);
-
-      const storage = getStorage();
-
       const productBucket = "product";
       const productName = match ? match[1] : null;
       const fileExtension = match ? match[2] : null;
-      const filePath = `${productBucket}/${productName}${fileExtension}`;
-      const storageRef = ref(storage, filePath);
-      await uploadBytesResumable(storageRef, values.image);
 
-      await addDoc(collection(db, "products"), {
-        name: values.name.trim(),
-        description: values.description.trim(),
-        price: handleFormatCurrencyToFloat(values.price),
-        image: filePath
-      });
+      const filePath = `${productBucket}/${productName}${fileExtension}`;
+
+      await createProducts(values, filePath);
+
       toast({
         title: "Produto cadastrado com sucesso!"
       });
@@ -64,7 +53,8 @@ export function FormNewProduct() {
       });
     }
   }
-
+  console.log(form.getValues("availableQuantity"));
+  console.log(typeof form.getValues("availableQuantity"));
   return (
     <Form {...form}>
       <form
@@ -133,9 +123,9 @@ export function FormNewProduct() {
                 <TextField
                   label="Quantidade disponível"
                   placeholder="Quantidade de produtos disponíveis no estoque"
-                  type="number"
-                  min={1}
                   {...field}
+                  min={1}
+                  type="number"
                 />
               </FormControl>
               <FormMessage />
