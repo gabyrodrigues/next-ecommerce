@@ -25,7 +25,7 @@ export function Menu({ session }: MenuProps) {
       redirect: false
     });
 
-    router.replace("/sign-in");
+    router.push("/");
   }
 
   return (
