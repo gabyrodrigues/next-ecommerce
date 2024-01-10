@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 
 import NextAuthSessionProvider from "@/providers/sessionProvider";
 import CartContextProvider from "@/contexts/Cart/provider";
+import ProductContextProvider from "@/contexts/Product/provider";
 import { Toaster } from "@/components/Toast/toaster";
 
 import "./globals.css";
@@ -25,7 +26,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className}>
         <NextAuthSessionProvider>
-          <CartContextProvider>{children}</CartContextProvider>
+          <ProductContextProvider>
+            <CartContextProvider>{children}</CartContextProvider>
+          </ProductContextProvider>
         </NextAuthSessionProvider>
         <Toaster />
       </body>

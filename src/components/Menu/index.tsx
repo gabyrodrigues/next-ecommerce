@@ -9,6 +9,7 @@ import { AddCircleOutline, Logout } from "@styled-icons/material-outlined";
 import { Button } from "@/components/Button";
 import { Group } from "@/components/Group";
 import { Flex } from "@/components/Flex";
+import { Search } from "@/components/Search";
 import CartSheet from "@/components/Cart/CartSheet";
 
 import logo from "../../../public/img/logo-full.svg";
@@ -39,6 +40,8 @@ export function Menu({ session }: MenuProps) {
             priority
           />
         </Link>
+
+        <Search />
 
         <Group>
           <CartSheet />

@@ -19,7 +19,7 @@ export function CartProductItem({ product }: CartProductItemProps) {
           src={`https://firebasestorage.googleapis.com/v0/b/next-ecommerce-2fa59.appspot.com/o/${encodeURIComponent(
             product.image
           )}?alt=media`}
-          alt={product.name}
+          alt={product.name.join(" ")}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           fill
           className="absolute object-cover"
