@@ -39,7 +39,7 @@ export default function CartSheet() {
               <div className="flex flex-col gap-5 pr-6">
                 {cartItems.map((product: CartItem) => (
                   <div
-                    key={`${product.name}-${product.id}`}
+                    key={`${product.name.join(" ")}-${product.id}`}
                     className="space-y-3">
                     <CartProductItem product={product} />
                   </div>

@@ -8,20 +8,24 @@ import { Loader } from "@/components/Loader";
 import { ProductsList } from "@/components/ProductsList";
 import { ProductContext } from "@/contexts/Product";
 
-export default function Home() {
+export default function SearchPage({
+  searchParams
+}: {
+  searchParams?: {
+    query?: string;
+  };
+}) {
   const { isLoading, products, handleLoadProducts } = useContext(ProductContext);
 
+  const query = searchParams?.query || "";
+
   async function fetchProducts() {
-    try {
-      await handleLoadProducts();
-    } catch (error) {
-      console.log(error);
-    }
+    await handleLoadProducts({ name: query });
   }
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [query]);
 
   return (
     <>
@@ -31,7 +35,13 @@ export default function Home() {
             <Loader />
           </Flex>
         ) : (
-          <ProductsList products={products} />
+          <Flex className="flex-col gap-14">
+            <h2 className="text-3xl text-black font-semibold">
+              Produtos encontrados: {products.length}
+            </h2>
+
+            <ProductsList products={products} />
+          </Flex>
         )}
       </Container>
     </>

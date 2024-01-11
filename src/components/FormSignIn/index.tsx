@@ -13,6 +13,9 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { useToast } from "@/components/Toast/useToast";
 import { formSchema } from "./schema";
 
+import googleLogo from "../../../public/img/google.svg";
+import Image from "next/image";
+
 export function FormSignIn() {
   const router = useRouter();
   const submitRef = useRef<HTMLButtonElement | null>(null);
@@ -98,6 +101,19 @@ export function FormSignIn() {
           ref={submitRef}
           className="w-full">
           Login
+        </Button>
+        <p className="text-sm text-center text-black">ou</p>
+        <Button
+          className="w-full gap-2 border-primary text-black hover:bg-primary hover:text-white"
+          variant="outline"
+          type="button"
+          onClick={() => signIn("google")}>
+          <Image
+            src={googleLogo}
+            alt="Logo Google"
+            className="w-4"
+          />
+          Login com Google
         </Button>
         <div className="text-black text-small text-center">
           <Link
