@@ -1,10 +1,9 @@
 "use client";
-import React from "react";
+import React, { KeyboardEvent, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search as SearchIcon } from "@styled-icons/material-outlined";
 
 import { TextField, TextFieldProps } from "@/components/TextField";
-import { useDebounce } from "@/utils/useDebounce";
 
 export interface SearchProps extends TextFieldProps {}
 const Search = React.forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
@@ -12,7 +11,9 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
   const pathname = "/search";
   const router = useRouter();
 
-  const handleSearch = useDebounce((term: string) => {
+  const [term, setTerm] = useState("");
+
+  function handleSearch() {
     const params = new URLSearchParams(searchParams);
     if (term) {
       params.set("query", term);
@@ -20,16 +21,22 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
       params.delete("query");
     }
     router.replace(`${pathname}?${params.toString()}`);
-  }, 500);
+  }
+
+  function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSearch();
+    }
+  }
 
   return (
     <TextField
       className="w-full"
       placeholder="Busque um produto"
       icon={<SearchIcon />}
-      onChange={(e) => {
-        handleSearch(e.target.value);
-      }}
+      onChange={(event) => setTerm(event.target.value)}
+      onKeyDown={handleKeyDown}
       ref={ref}
       defaultValue={searchParams.get("query")?.toString()}
       {...props}

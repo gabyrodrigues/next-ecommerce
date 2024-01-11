@@ -30,7 +30,6 @@ export interface FilterOptions {
 }
 
 export async function createProducts(product: z.infer<typeof productSchema>): Promise<void> {
-  console.log(product);
   const regex = /^(.+?)(\.\w+)$/;
   const match = product.image.name.match(regex);
   const productBucket = "product";
@@ -56,6 +55,7 @@ function applyQueryFilters(q: Query<DocumentData, DocumentData>, filters: Filter
   if (filters.name) {
     q = query(q, where("name", "array-contains-any", filters.name.trim().split(" ")));
   }
+
   return q;
 }
 
@@ -78,7 +78,7 @@ export async function getProductsSnapshot(
         id: doc.id
       };
     });
-    console.log({ results });
+
     cb(results);
   });
 
