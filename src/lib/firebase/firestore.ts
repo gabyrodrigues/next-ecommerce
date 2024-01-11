@@ -18,7 +18,8 @@ import { db } from ".";
 
 export interface Product {
   id: string;
-  name: string[];
+  name: string;
+  nameQuery: string[];
   description: string;
   price: number;
   image: string;
@@ -41,10 +42,14 @@ export async function createProducts(product: z.infer<typeof productSchema>): Pr
   const storage = getStorage();
   const storageRef = ref(storage, filePath);
 
+  const words = product.name.trim().split(/\s+/);
+  const nameQuery = words.flatMap((word) => [word, word.toLowerCase()]);
+
   await uploadBytesResumable(storageRef, product.image);
 
   await addDoc(collection(db, "products"), {
-    name: product.name.trim().split(" "),
+    name: product.name.trim(),
+    nameQuery,
     description: product.description.trim(),
     price: product.price,
     image: filePath
@@ -53,7 +58,7 @@ export async function createProducts(product: z.infer<typeof productSchema>): Pr
 
 function applyQueryFilters(q: Query<DocumentData, DocumentData>, filters: FilterOptions) {
   if (filters.name) {
-    q = query(q, where("name", "array-contains-any", filters.name.trim().split(" ")));
+    q = query(q, where("nameQuery", "array-contains-any", filters.name.trim().split(" ")));
   }
 
   return q;

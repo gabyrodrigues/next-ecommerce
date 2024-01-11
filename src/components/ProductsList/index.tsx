@@ -36,19 +36,19 @@ export function ProductsList({ products }: ProductsListProps) {
   }
 
   return (
-    <Grid>
+    <Grid className="w-full">
       {products.map((product) => (
         <Card key={product.id}>
           <CardImage
             src={`https://firebasestorage.googleapis.com/v0/b/next-ecommerce-2fa59.appspot.com/o/${encodeURIComponent(
               product.image
             )}?alt=media`}
-            alt={product.name.join(" ")}
+            alt={product.name}
             priority
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <CardContent>
-            <CardTitle>{product.name.join(" ")}</CardTitle>
+            <CardTitle>{product.name}</CardTitle>
 
             <HoverCard>
               <HoverCardTrigger>
@@ -56,7 +56,7 @@ export function ProductsList({ products }: ProductsListProps) {
               </HoverCardTrigger>
 
               <HoverCardContent>
-                <CardTitle>{product.name.join(" ")}</CardTitle>
+                <CardTitle>{product.name}</CardTitle>
                 <p className="text-sm mt-1">{product.description}</p>
               </HoverCardContent>
             </HoverCard>

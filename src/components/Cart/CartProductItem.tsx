@@ -19,7 +19,7 @@ export function CartProductItem({ product }: CartProductItemProps) {
           src={`https://firebasestorage.googleapis.com/v0/b/next-ecommerce-2fa59.appspot.com/o/${encodeURIComponent(
             product.image
           )}?alt=media`}
-          alt={product.name.join(" ")}
+          alt={product.name}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           fill
           className="absolute object-cover"
@@ -27,7 +27,7 @@ export function CartProductItem({ product }: CartProductItemProps) {
         />
       </div>
       <div className="flex flex-1 flex-col gap-1 self-start text-sm">
-        <span className="text-white line-clamp-1">{product.name.join(" ")}</span>
+        <span className="text-white line-clamp-1">{product.name}</span>
         <span className="text-white  line-clamp-1 text-muted-foreground">
           {handleConvertPriceToBRL(product.price)} x {product.quantity} ={" "}
         </span>
